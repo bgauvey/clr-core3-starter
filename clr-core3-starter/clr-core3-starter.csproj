@@ -11,6 +11,7 @@
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
     <AssemblyName>clr_core3_starter</AssemblyName>
+    <RootNamespace>clr_core3_starter</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,7 +51,7 @@
     <ItemGroup>
       <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
       <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
-      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+      <ResolvedFileToPublish Include="@(DistFiles-&gt;'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
         <RelativePath>%(DistFiles.Identity)</RelativePath>
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </ResolvedFileToPublish>

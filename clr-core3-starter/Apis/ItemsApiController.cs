@@ -27,12 +27,12 @@ namespace clr_core3_starter.Apis
         [NoCache]
         [ProducesResponseType(typeof(List<Item>), 200)]
         [ProducesResponseType(typeof(ApiResponse), 400)]
-        public async Task<ActionResult> States()
+        public async Task<ActionResult> Items()
         {
             try
             {
-                var states = await _ItemsRepository.GetItemsAsync();
-                return Ok(states);
+                var items = await _ItemsRepository.GetItemsAsync();
+                return Ok(items);
             }
             catch (Exception exp)
             {
@@ -47,7 +47,7 @@ namespace clr_core3_starter.Apis
         [NoCache]
         [ProducesResponseType(typeof(Item), 200)]
         [ProducesResponseType(typeof(ApiResponse), 400)]
-        public async Task<ActionResult> Customers(string id)
+        public async Task<ActionResult> Items(string id)
         {
             try
             {
