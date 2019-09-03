@@ -1,23 +1,31 @@
-﻿using System;
+﻿using clr_core3_starter.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using clrcore3starter.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace clrcore3starter.Repository
+namespace clr_core3_starter.Repository
 {
-    public class ItemsRepository: IItemRepository
+    public class ItemsRepository: IItemsRepository
     {
-        public ItemsRepository()
+        private readonly MesDbContext _Context;
+        private readonly ILogger _Logger;
+
+        public ItemsRepository(MesDbContext context, ILoggerFactory loggerFactory)
         {
+            _Context = context;
+            _Logger = loggerFactory.CreateLogger("ItemsRepository");
         }
 
-        public Item GetItem(string itemId)
+        public async Task<Item> GetItemAsync(string itemId)
         {
-            throw new NotImplementedException();
+            return await _Context.Items.Where(s => s.ItemId == itemId).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<Item> GetItems()
+        public async Task<List<Item>> GetItemsAsync()
         {
-            throw new NotImplementedException();
+            return await _Context.Items.OrderBy(s => s.ItemId).ToListAsync();
         }
     }
 }

@@ -1,46 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using clr_core3_starter.Infrastructure;
+using clr_core3_starter.Models;
+using clr_core3_starter.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace clrcore3starter.Apis
+namespace clr_core3_starter.Apis
 {
     [Route("api/items")]
     public class ItemsApiController : Controller
     {
-        // GET: api/values
+        IItemsRepository _ItemsRepository;
+        ILogger _Logger;
+
+        public ItemsApiController(IItemsRepository itemsRepo, ILoggerFactory loggerFactory)
+        {
+            _ItemsRepository = itemsRepo;
+            _Logger = loggerFactory.CreateLogger(nameof(ItemsApiController));
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        [NoCache]
+        [ProducesResponseType(typeof(List<Item>), 200)]
+        [ProducesResponseType(typeof(ApiResponse), 400)]
+        public async Task<ActionResult> States()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                var states = await _ItemsRepository.GetItemsAsync();
+                return Ok(states);
+            }
+            catch (Exception exp)
+            {
+                _Logger.LogError(exp.Message);
+                return BadRequest(new ApiResponse { Status = false });
+            }
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        // GET api/items/5
+        [HttpGet("{id}", Name = "GetItemRoute")]
+        [NoCache]
+        [ProducesResponseType(typeof(Item), 200)]
+        [ProducesResponseType(typeof(ApiResponse), 400)]
+        public async Task<ActionResult> Customers(string id)
         {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            try
+            {
+                var item = await _ItemsRepository.GetItemAsync(id);
+                return Ok(item);
+            }
+            catch (Exception exp)
+            {
+                _Logger.LogError(exp.Message);
+                return BadRequest(new ApiResponse { Status = false });
+            }
         }
     }
 }
