@@ -55,6 +55,7 @@ namespace clr_core3_starter.Repository
             var items = new List<Item>
             {
                 new Item { ItemDesc = "PANEL TOP WICK", ItemId = "73012345" },
+                new Item { ItemDesc = "PANEL TOP WHITE", ItemId = "73012344" },
             };
 
             return items;

@@ -1,24 +1,22 @@
-<h1>Weather forecast</h1>
+<h1>Items</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
+<p *ngIf="!items"><em>Loading...</em></p>
 
-<table class='table table-noborder' *ngIf="forecasts">
+<table class='table table-noborder' *ngIf="items">
   <thead>
     <tr>
-      <th class="left">Date</th>
-      <th>Temp. (C)</th>
-      <th>Temp. (F)</th>
-      <th>Summary</th>
+      <th class="left">Row Id</th>
+      <th>Item ID</th>
+      <th>Description</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td class="left">{{ forecast.date }}</td>
-      <td>{{ forecast.temperatureC }}</td>
-      <td>{{ forecast.temperatureF }}</td>
-      <td>{{ forecast.summary }}</td>
+    <tr *ngFor="let item of items">
+      <td class="left">{{ item.rowId }}</td>
+      <td>{{ item.itemId }}</td>
+      <td>{{ item.itemDesc }}</td>
     </tr>
   </tbody>
 </table>
